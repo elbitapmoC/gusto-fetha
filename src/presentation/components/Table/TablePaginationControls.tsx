@@ -1,3 +1,5 @@
+// src/presentation/components/Table/PaginationControls.tsx
+
 import lastPageIcon from "../../assets/LastPage.svg";
 import firstPageIcon from "../../assets/FirstPage.svg";
 
