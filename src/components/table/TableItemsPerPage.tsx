@@ -1,16 +1,14 @@
-// src/presentation/components/Table/TableItemsPerPage.tsx
-
-import React from "react";
+// src/components/table/TableItemsPerPage.tsx
 
 interface TableItemsPerPageProps {
   itemsPerPage: number;
   setItemsPerPage: (items: number) => void;
 }
 
-const TableItemsPerPage = ({
+export default function TableItemsPerPage({
   itemsPerPage,
   setItemsPerPage,
-}: TableItemsPerPageProps) => {
+}: TableItemsPerPageProps) {
   return (
     <label className="flex items-center space-x-2">
       <span className="text-sm">Items per page:</span>
@@ -27,6 +25,4 @@ const TableItemsPerPage = ({
       </select>
     </label>
   );
-};
-
-export default React.memo(TableItemsPerPage);
+}
