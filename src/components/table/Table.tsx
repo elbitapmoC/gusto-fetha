@@ -1,6 +1,6 @@
 // src/components/table/Table.tsx
 
-import { TableProps } from "../../types/index";
+import { TableProps } from "../../types";
 
 const Table = ({ children, sortConfig, onSort }: TableProps) => {
   return (

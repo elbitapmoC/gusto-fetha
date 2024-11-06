@@ -1,3 +1,5 @@
+"use client";
+
 // src/app/page.tsx
 
 import { useState, useMemo } from "react";

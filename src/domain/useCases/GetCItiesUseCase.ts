@@ -1,7 +1,7 @@
 // src/application/useCases/GetCitiesUseCase.ts
 
 import { CityServiceInterface } from "../services/CityServiceInterface";
-import { City } from "../../app/domain/models/City";
+import { City } from "../models/City";
 
 export class GetCitiesUseCase {
   constructor(private cityService: CityServiceInterface) {}

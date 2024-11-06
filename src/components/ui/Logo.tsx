@@ -1,8 +1,12 @@
-// src/presentation/components/ui/Logo.tsx
+// src/components/ui/Logo.tsx
 
 import sojournerLogo from "../../assets/sojo.svg";
 
-const Logo = ({ className = "" }: { className?: string }) => (
+interface LogoProps {
+  className?: string;
+}
+
+const Logo = ({ className = "" }: LogoProps) => (
   <img
     src={sojournerLogo}
     alt="Sojourner logo"

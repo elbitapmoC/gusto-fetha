@@ -1,6 +1,5 @@
 // src/components/layout/Footer.tsx
 
-import React from "react";
 import Logo from "../ui/Logo";
 
 const Footer = () => (
@@ -27,9 +26,9 @@ const Footer = () => (
           </span>
         </a>
 
-        <aside className="flex flex-col items-center text-sm font-medium gap-1 text-center sm:text-left">
+        <aside className="flex flex-col items-center text-sm font-medium gap-1">
           <span className="block text-sm">
-            © {new Date().getFullYear()}{" "}
+            © 2024{" "}
             <a href="https://sojourn.llc/" className="hover:underline">
               Sojourner™
             </a>
@@ -41,4 +40,4 @@ const Footer = () => (
   </footer>
 );
 
-export default React.memo(Footer);
+export default Footer;

@@ -1,6 +1,6 @@
-// src/presentation/components/Search/Search.tsx
+// src/components/ui/Search.tsx
 
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 
 interface SearchProps {
   onSearch: (query: string) => void;
@@ -9,7 +9,7 @@ interface SearchProps {
 const Search = ({ onSearch }: SearchProps) => {
   const [query, setQuery] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setQuery(value);
     onSearch(value);
@@ -21,8 +21,8 @@ const Search = ({ onSearch }: SearchProps) => {
       value={query}
       onChange={handleChange}
       placeholder="Search cities..."
-      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       aria-label="Search cities"
+      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
   );
 };

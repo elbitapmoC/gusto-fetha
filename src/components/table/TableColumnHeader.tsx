@@ -1,21 +1,21 @@
-// src/presentation/components/Table/TableColumnHeader.tsx
+// src/components/table/TableColumnHeader.tsx
 
-import React from "react";
-import { TableProps, City } from "../../types/index";
+import { SortConfig } from "../../types";
+import { City } from "../../domain/models/City";
 
 interface TableColumnHeaderProps {
   label: string;
   keyProp: keyof City;
   onSort: (column: keyof City) => void;
-  sortConfig: TableProps["sortConfig"];
+  sortConfig: SortConfig;
 }
 
-const TableColumnHeader: React.FC<TableColumnHeaderProps> = ({
+const TableColumnHeader = ({
   label,
   keyProp,
   onSort,
   sortConfig,
-}) => {
+}: TableColumnHeaderProps) => {
   const handleKeyPress = (event: React.KeyboardEvent<HTMLTableCellElement>) => {
     if (event.key === "Enter" || event.key === " ") {
       onSort(keyProp);
@@ -23,7 +23,11 @@ const TableColumnHeader: React.FC<TableColumnHeaderProps> = ({
   };
 
   const isSorted = sortConfig?.column === keyProp;
-  const sortDirection = isSorted ? sortConfig.direction : "none";
+  const sortIndicator = isSorted
+    ? sortConfig.direction === "asc"
+      ? "↑"
+      : "↓"
+    : "⇅";
 
   return (
     <th
@@ -31,13 +35,18 @@ const TableColumnHeader: React.FC<TableColumnHeaderProps> = ({
       onKeyDown={handleKeyPress}
       tabIndex={0}
       role="columnheader"
-      aria-sort={sortDirection === "asc" ? "ascending" : "descending"}
+      aria-sort={
+        isSorted
+          ? sortConfig.direction === "asc"
+            ? "ascending"
+            : "descending"
+          : "none"
+      }
       className="cursor-pointer hover:bg-gray-100 p-4 border"
     >
-      {label}{" "}
-      {sortDirection === "asc" ? "↑" : sortDirection === "desc" ? "↓" : "⇅"}
+      {label} {sortIndicator}
     </th>
   );
 };
 
-export default React.memo(TableColumnHeader);
+export default TableColumnHeader;

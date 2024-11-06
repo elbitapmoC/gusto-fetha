@@ -10,9 +10,10 @@ export interface SortConfig {
 
 // General props for tables, includes data
 export interface TableProps {
+  data?: City[];
   children?: React.ReactNode;
-  sortConfig: SortConfig | null;
-  onSort: (column: keyof City) => void;
+  sortConfig?: SortConfig | null;
+  onSort?: (column: keyof City) => void;
 }
 
 // Pagination props

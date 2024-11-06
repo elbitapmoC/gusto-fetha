@@ -1,6 +1,6 @@
 // src/application/services/CityServiceInterface.ts
 
-import { City } from "../../app/domain/models/City";
+import { City } from "../models/City";
 
 export interface CityServiceInterface {
   getCities(

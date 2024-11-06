@@ -1,42 +1,28 @@
 // src/infrastructure/repos/CityRepo.ts
 
-import { cities } from "data/worldcities/cities";
-import { City } from "../../app/domain/models/City";
-import { CityServiceInterface } from "../../application/services/CityServiceInterface";
-
-type SearchOptions = Partial<{
-  limit: number;
-  offset: number;
-  searchTerm: string;
-}>;
+import { cities } from "../../../public/worldcities/cities";
+import { City } from "../../domain/models/City";
+import { CityServiceInterface } from "../../domain/services/CityServiceInterface";
 
 class CityRepo implements CityServiceInterface {
   private collator = new Intl.Collator("en", { sensitivity: "base" });
 
-  async getCities({
-    limit = 10000,
-    offset = 0,
-    searchTerm,
-  }: SearchOptions = {}): Promise<City[]> {
-    let filteredList;
-
-    // Error handling for specific search term "error"
+  async getCities(limit = 10000, offset = 0, searchTerm = ""): Promise<City[]> {
+    // Handle special search term "error" to simulate an error
     if (searchTerm && this.collator.compare(searchTerm, "error") === 0) {
       throw new Error("Something terrible just happened!");
     }
 
-    // Filtering cities based on search term
-    if (!searchTerm) {
-      filteredList = cities;
-    } else {
-      filteredList = cities.filter(
-        (c) =>
-          this.collator.compare(c[2], searchTerm) === 0 || // City name
-          this.collator.compare(c[3], searchTerm) === 0 // Country name
-      );
-    }
+    // Filter cities based on search term if provided
+    const filteredList = searchTerm
+      ? cities.filter(
+          (c) =>
+            this.collator.compare(c[2], searchTerm) === 0 || // City name
+            this.collator.compare(c[3], searchTerm) === 0 // Country name
+        )
+      : cities;
 
-    // Slicing and mapping to City type
+    // Paginate results and map to City objects
     return filteredList.slice(offset, offset + limit).map((row) => ({
       id: row[0],
       name: row[1],

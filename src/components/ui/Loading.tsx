@@ -1,9 +1,9 @@
-// src/presentation/components/Loading.tsx
+// src/components/ui/Loading.tsx
 
 const Loading = () => {
   return (
     <aside
-      className="flex items-center justify-center m-8 py-2.5 px-5 mr-2 text-sm font-medium text-[var(--text-color)] border border-[var(--border-color)] rounded-lg focus:z-10"
+      className="flex items-center justify-center m-8 py-2.5 px-5 text-sm font-medium text-[var(--text-color)] border border-[var(--border-color)] rounded-lg"
       aria-label="Loading"
       role="status"
     >

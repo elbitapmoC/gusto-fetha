@@ -1,4 +1,4 @@
-// src/presentation/components/Table/TableItemsPerPage.tsx
+// src/components/table/TableItemsPerPage.tsx
 
 interface TableItemsPerPageProps {
   itemsPerPage: number;
@@ -15,12 +15,12 @@ const TableItemsPerPage = ({
       <select
         value={itemsPerPage}
         onChange={(e) => setItemsPerPage(Number(e.target.value))}
+        aria-label="Items per page"
         className="border p-2 rounded-md"
-        aria-label="Select items per page"
       >
         {[10, 20, 50, 100].map((count) => (
           <option key={count} value={count}>
-            {count}
+            {count} / page
           </option>
         ))}
       </select>
