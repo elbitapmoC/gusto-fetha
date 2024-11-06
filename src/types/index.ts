@@ -1,6 +1,6 @@
 // src/presentation/components/Table/TableTypes.ts
 
-import { City } from "domain/models/City";
+import { City } from "../../app/domain/models/City";
 
 export interface SortConfig {
   column: keyof City;
@@ -8,7 +8,7 @@ export interface SortConfig {
 }
 
 export interface TableProps {
-  sortConfig: SortConfig;
+  sortConfig: SortConfig | null; // Allowing null to accommodate initial state
   onSort: (column: keyof City) => void;
   children: React.ReactNode;
 }

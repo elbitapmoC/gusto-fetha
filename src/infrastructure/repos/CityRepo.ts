@@ -1,7 +1,7 @@
 // src/infrastructure/repos/CityRepo.ts
 
 import { cities } from "data/worldcities/cities";
-import { City } from "../../domain/models/City";
+import { City } from "../../app/domain/models/City";
 import { CityServiceInterface } from "../../application/services/CityServiceInterface";
 
 type SearchOptions = Partial<{
