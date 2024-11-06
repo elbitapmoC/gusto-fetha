@@ -1,6 +1,6 @@
 // src/presentation/components/Search/Search.tsx
 
-import React, { useState } from "react";
+import { useState } from "react";
 
 interface SearchProps {
   onSearch: (query: string) => void;
@@ -27,4 +27,4 @@ const Search = ({ onSearch }: SearchProps) => {
   );
 };
 
-export default React.memo(Search);
+export default Search;

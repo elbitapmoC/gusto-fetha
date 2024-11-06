@@ -1,7 +1,5 @@
 // src/presentation/components/Title.tsx
 
-import React from "react";
-
 type TitleProps = {
   title: string;
 };
@@ -23,4 +21,4 @@ const Title = ({ title }: TitleProps) => {
   );
 };
 
-export default React.memo(Title);
+export default Title;

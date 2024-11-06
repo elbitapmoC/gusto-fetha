@@ -1,17 +1,16 @@
 // src/presentation/context/CitiesContext.tsx
 
-import {
+import React, {
   createContext,
   useContext,
   useReducer,
   useEffect,
-  useMemo,
   ReactNode,
 } from "react";
 import { City } from "../domain/models/City";
-import CityRepo from "../../infrastructure/repos/CityRepo";
-import { GetCitiesUseCase } from "../../application/useCases/GetCItiesUseCase";
-import { CityServiceInterface } from "../../application/services/CityServiceInterface";
+import CityRepo from "../infrastructure/repos/CityRepo";
+import { GetCitiesUseCase } from "../domain/useCases/GetCItiesUseCase";
+import { CityServiceInterface } from "../domain/services/CityServiceInterface";
 
 interface State {
   cities: City[];
@@ -56,10 +55,8 @@ export const useCities = () => {
 export const CitiesProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(citiesReducer, initialState);
 
-  // Memoize cityRepo to ensure it's only created once
-  const cityRepo = useMemo(() => new CityRepo() as CityServiceInterface, []);
-
   useEffect(() => {
+    const cityRepo = new CityRepo() as CityServiceInterface;
     const getCitiesUseCase = new GetCitiesUseCase(cityRepo);
 
     const fetchCities = async () => {
@@ -73,7 +70,7 @@ export const CitiesProvider = ({ children }: { children: ReactNode }) => {
     };
 
     fetchCities();
-  }, [cityRepo]);
+  }, []);
 
   return (
     <CitiesContext.Provider value={state}>{children}</CitiesContext.Provider>

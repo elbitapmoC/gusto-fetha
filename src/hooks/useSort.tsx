@@ -1,7 +1,7 @@
 // src/presentation/hooks/useSort.tsx
 
 import { useState, useMemo } from "react";
-import { City } from "../../app/domain/models/City";
+import { City } from "../domain/models/City";
 
 const useSort = (cities: City[]) => {
   const [sortConfig, setSortConfig] = useState<{

@@ -1,14 +1,14 @@
-// src/components/table/TableItemsPerPage.tsx
+// src/presentation/components/Table/TableItemsPerPage.tsx
 
 interface TableItemsPerPageProps {
   itemsPerPage: number;
   setItemsPerPage: (items: number) => void;
 }
 
-export default function TableItemsPerPage({
+const TableItemsPerPage = ({
   itemsPerPage,
   setItemsPerPage,
-}: TableItemsPerPageProps) {
+}: TableItemsPerPageProps) => {
   return (
     <label className="flex items-center space-x-2">
       <span className="text-sm">Items per page:</span>
@@ -16,6 +16,7 @@ export default function TableItemsPerPage({
         value={itemsPerPage}
         onChange={(e) => setItemsPerPage(Number(e.target.value))}
         className="border p-2 rounded-md"
+        aria-label="Select items per page"
       >
         {[10, 20, 50, 100].map((count) => (
           <option key={count} value={count}>
@@ -25,4 +26,6 @@ export default function TableItemsPerPage({
       </select>
     </label>
   );
-}
+};
+
+export default TableItemsPerPage;

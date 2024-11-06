@@ -1,7 +1,5 @@
 // src/presentation/components/Loading.tsx
 
-import React from "react";
-
 const Loading = () => {
   return (
     <aside
@@ -30,4 +28,4 @@ const Loading = () => {
   );
 };
 
-export default React.memo(Loading);
+export default Loading;

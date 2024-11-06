@@ -1,19 +1,21 @@
 // src/types/index.ts
 
-// --------------- Table Types ---------------
 import { City } from "../domain/models/City";
 
+// Sorting configuration for a table column
 export interface SortConfig {
   column: keyof City;
   direction: "asc" | "desc" | "none";
 }
 
+// General props for tables, includes data
 export interface TableProps {
-  data: City[];
+  children?: React.ReactNode;
   sortConfig: SortConfig | null;
   onSort: (column: keyof City) => void;
 }
 
+// Pagination props
 export interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -22,6 +24,4 @@ export interface PaginationProps {
   setItemsPerPage: (count: number) => void;
 }
 
-// --------------- Other Types ---------------
-// Add additional type definitions here as needed
-// e.g., types for different components or domains
+export type { City };

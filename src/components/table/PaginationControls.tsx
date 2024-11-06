@@ -3,72 +3,66 @@
 import lastPageIcon from "../../assets/LastPage.svg";
 import firstPageIcon from "../../assets/FirstPage.svg";
 
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  isLoading: boolean;
+}
+
 const PaginationControls = ({
   currentPage,
   totalPages,
   onPageChange,
   isLoading,
-}: {
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-  isLoading: boolean;
-}) => (
+}: PaginationProps) => (
   <nav
     aria-label="Pagination"
-    aria-live="polite"
     className="flex gap-2 items-center justify-center"
   >
+    {/* First Page Button */}
     <button
       onClick={() => onPageChange(1)}
       disabled={isLoading || currentPage === 1}
       aria-label="First Page"
       className="flex items-center justify-center rounded disabled:opacity-50"
-      tabIndex={0}
     >
-      <img
-        className="fixed-image"
-        src={firstPageIcon}
-        alt="Navigate to first page"
-      />
+      <img className="w-4 h-4" src={firstPageIcon} alt="First page" />
     </button>
 
+    {/* Previous Page Button */}
     <button
       onClick={() => onPageChange(currentPage - 1)}
       disabled={isLoading || currentPage === 1}
       aria-label="Previous Page"
-      className="w-10 h-8 flex items-center justify-center rounded text-white disabled:opacity-50"
-      tabIndex={0}
+      className="w-10 h-8 flex items-center justify-center rounded disabled:opacity-50"
     >
       &#8592;
     </button>
 
+    {/* Current Page Display */}
     <span aria-current="page" className="text-center">
-      Pg. {currentPage} / {totalPages}
+      Page {currentPage} of {totalPages}
     </span>
 
+    {/* Next Page Button */}
     <button
       onClick={() => onPageChange(currentPage + 1)}
       disabled={isLoading || currentPage === totalPages}
       aria-label="Next Page"
-      className="w-10 h-8 flex items-center justify-center rounded text-white disabled:opacity-50"
-      tabIndex={0}
+      className="w-10 h-8 flex items-center justify-center rounded disabled:opacity-50"
     >
       &#8594;
     </button>
 
+    {/* Last Page Button */}
     <button
       onClick={() => onPageChange(totalPages)}
       disabled={isLoading || currentPage === totalPages}
       aria-label="Last Page"
       className="flex items-center justify-center rounded disabled:opacity-50"
-      tabIndex={0}
     >
-      <img
-        className="fixed-image"
-        src={lastPageIcon}
-        alt="Navigate to last page"
-      />
+      <img className="w-4 h-4" src={lastPageIcon} alt="Last page" />
     </button>
   </nav>
 );
