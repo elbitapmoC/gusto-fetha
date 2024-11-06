@@ -1,7 +1,11 @@
-import { TableProps } from "./Table";
-import type { City } from "../../api/getCities";
+// src/presentation/components/Table/TableColumnHeader.tsx
 
-const mapDirectionToAriaSort = (direction: "asc" | "desc" | "none") => {
+import React from "react";
+import { TableProps, City } from "./TableTypes";
+
+const mapDirectionToAriaSort = (
+  direction: "asc" | "desc" | "none"
+): "ascending" | "descending" | "none" => {
   switch (direction) {
     case "asc":
       return "ascending";
@@ -17,26 +21,27 @@ const getSortIndicator = (
   sortConfig: TableProps["sortConfig"]
 ) => {
   if (sortConfig.column === column) {
-    if (sortConfig.direction === "asc") return "↑";
-    if (sortConfig.direction === "desc") return "↓";
+    return sortConfig.direction === "asc" ? "↑" : "↓";
   }
-  return "⇅"; // No symbol when sort direction is "none"
+  return "⇅";
 };
 
-const TableColumnHeader = ({
-  label,
-  keyProp,
-  onSort,
-  sortConfig,
-}: {
+interface TableColumnHeaderProps {
   label: string;
   keyProp: keyof City;
   onSort: (column: keyof City) => void;
   sortConfig: TableProps["sortConfig"];
+}
+
+const TableColumnHeader: React.FC<TableColumnHeaderProps> = ({
+  label,
+  keyProp,
+  onSort,
+  sortConfig,
 }) => {
   const handleKeyPress = (event: React.KeyboardEvent<HTMLTableCellElement>) => {
     if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault(); // Prevent page scroll on Space key
+      event.preventDefault();
       onSort(keyProp);
     }
   };
@@ -60,4 +65,4 @@ const TableColumnHeader = ({
   );
 };
 
-export default TableColumnHeader;
+export default React.memo(TableColumnHeader);

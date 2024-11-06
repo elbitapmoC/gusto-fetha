@@ -1,6 +1,10 @@
+// src/presentation/components/Logo.tsx
+
+import React from "react";
+
 const Logo = ({ className = "" }: { className?: string }) => (
   <svg
-    className={`w-8 h-8 ${className}`}
+    className={`w-8 h-8 ${className} text-[var(--primary-color)]`}
     fill="currentColor"
     viewBox="0 0 495 760"
     xmlns="http://www.w3.org/2000/svg"
@@ -9,4 +13,4 @@ const Logo = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
-export default Logo;
+export default React.memo(Logo);

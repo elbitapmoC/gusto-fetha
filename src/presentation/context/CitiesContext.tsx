@@ -1,22 +1,20 @@
+// src/presentation/context/CitiesContext.tsx
+
 import React, {
   createContext,
   useContext,
   useReducer,
   useEffect,
-  useCallback,
   ReactNode,
 } from "react";
-import { getCities } from "../api/getCities";
-import type { City } from "../api/getCities";
+import { City } from "../../domain/models/City";
+import CityRepo from "../../infrastructure/repos/CityRepo";
+import { GetCitiesUseCase } from "../../application/useCases/GetCitiesUseCase";
 
 interface State {
   cities: City[];
   loading: boolean;
   error: string | null;
-}
-
-interface CitiesContextType extends State {
-  fetchCities: () => Promise<void>;
 }
 
 const initialState: State = {
@@ -43,7 +41,7 @@ function citiesReducer(state: State, action: Action): State {
   }
 }
 
-const CitiesContext = createContext<CitiesContextType | undefined>(undefined);
+const CitiesContext = createContext<State | undefined>(undefined);
 
 export const useCities = () => {
   const context = useContext(CitiesContext);
@@ -53,26 +51,27 @@ export const useCities = () => {
   return context;
 };
 
-export function CitiesProvider({ children }: { children: ReactNode }) {
+export const CitiesProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(citiesReducer, initialState);
 
-  const fetchCities = useCallback(async () => {
-    dispatch({ type: "FETCH_START" });
-    try {
-      const data = await getCities();
-      dispatch({ type: "FETCH_SUCCESS", payload: data });
-    } catch (error) {
-      dispatch({ type: "FETCH_FAILURE", payload: "Failed to load cities." });
-    }
-  }, []);
+  const cityRepo = new CityRepo();
+  const getCitiesUseCase = new GetCitiesUseCase(cityRepo);
 
   useEffect(() => {
+    const fetchCities = async () => {
+      dispatch({ type: "FETCH_START" });
+      try {
+        const cities = await getCitiesUseCase.execute();
+        dispatch({ type: "FETCH_SUCCESS", payload: cities });
+      } catch (error) {
+        dispatch({ type: "FETCH_FAILURE", payload: "Failed to load cities." });
+      }
+    };
+
     fetchCities();
-  }, [fetchCities]);
+  }, [getCitiesUseCase]);
 
   return (
-    <CitiesContext.Provider value={{ ...state, fetchCities }}>
-      {children}
-    </CitiesContext.Provider>
+    <CitiesContext.Provider value={state}>{children}</CitiesContext.Provider>
   );
-}
+};

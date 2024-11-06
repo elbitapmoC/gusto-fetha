@@ -1,17 +1,17 @@
+// src/presentation/components/Loading.tsx
+
+import React from "react";
+
 const Loading = () => {
   return (
     <aside
-      className="flex m-8 justify-center py-2.5 px-5 me-2 text-sm font-medium rounded-lg focus:z-10"
-      style={{
-        color: "var(--text-color)",
-        border: `1px solid var(--border-color)`,
-      }}
+      className="flex items-center justify-center m-8 py-2.5 px-5 mr-2 text-sm font-medium text-[var(--text-color)] border border-[var(--border-color)] rounded-lg focus:z-10"
+      aria-label="Loading"
+      role="status"
     >
       <svg
         aria-hidden="true"
-        role="status"
-        className="inline w-4 h-4 me-3 animate-spin"
-        style={{ color: "var(--loading-spinner)" }}
+        className="inline w-4 h-4 mr-3 animate-spin text-[var(--loading-spinner)]"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -30,4 +30,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default React.memo(Loading);

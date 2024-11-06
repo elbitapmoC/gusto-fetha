@@ -1,3 +1,4 @@
+import React from "react";
 import Logo from "./Logo";
 
 const Footer = () => (
@@ -38,4 +39,4 @@ const Footer = () => (
   </footer>
 );
 
-export default Footer;
+export default React.memo(Footer);
