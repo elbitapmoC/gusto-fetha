@@ -1,19 +1,38 @@
+// src/app/page.tsx
 "use client";
 
-// src/app/page.tsx
-
-import { useState, useMemo } from "react";
-import { useCities } from "../context/CitiesContext";
+import { useState, useMemo, useEffect } from "react";
 import Table from "../components/table/Table";
 import PaginationControls from "../components/table/PaginationControls";
 import TableItemsPerPage from "../components/table/TableItemsPerPage";
 import Search from "../components/ui/Search";
+import Title from "@/components/ui/Title";
 
 export default function HomePage() {
-  const { cities, loading, error } = useCities();
+  const [cities, setCities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Fetch cities data
+  useEffect(() => {
+    setLoading(true);
+    fetch("/api/cities")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch cities.");
+        return res.json();
+      })
+      .then((data) => {
+        setCities(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
 
   // Handle search term updates
   const handleSearch = (term: string) => {
@@ -21,13 +40,14 @@ export default function HomePage() {
     setCurrentPage(1); // Reset to first page on new search
   };
 
-  // Memoize filtered cities to prevent unnecessary recalculations
+  // Filter cities based on search term
   const filteredCities = useMemo(() => {
-    return cities.filter((city) =>
+    return cities.filter((city: { name: string }) =>
       city.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [cities, searchTerm]);
 
+  // Calculate total pages for pagination
   const totalPages = Math.ceil(filteredCities.length / itemsPerPage);
 
   // Handle page change
@@ -35,7 +55,7 @@ export default function HomePage() {
     setCurrentPage(page);
   };
 
-  // Slice filtered data for the current page
+  // Slice data for the current page
   const paginatedCities = useMemo(() => {
     const startIdx = (currentPage - 1) * itemsPerPage;
     const endIdx = startIdx + itemsPerPage;
@@ -44,7 +64,7 @@ export default function HomePage() {
 
   return (
     <main>
-      <h1 className="text-4xl font-bold text-center mb-6">City Directory</h1>
+      <Title title="City Directory" />
 
       <div className="mb-4">
         <Search onSearch={handleSearch} />

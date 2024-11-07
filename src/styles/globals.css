@@ -78,12 +78,6 @@ input[type="search"] {
   color: var(--contrast);
 }
 
-.fixed-image {
-  min-width: 16px; /* Fixed width */
-  min-height: 16px; /* Fixed height */
-  object-fit: contain; /* Ensure the image keeps its aspect ratio */
-}
-
 /* Optional: Ensure buttons don't shrink on small screens */
 button {
   min-width: 40px;

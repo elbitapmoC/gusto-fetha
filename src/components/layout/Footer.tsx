@@ -20,7 +20,7 @@ const Footer = () => (
           className="flex items-center space-x-3 rtl:space-x-reverse"
           aria-label="Visit Sojourner's website"
         >
-          <Logo className="w-8 h-8" />
+          <Logo />
           <span className="text-2xl font-semibold whitespace-nowrap">
             Sojourner
           </span>

@@ -1,7 +1,6 @@
 // src/components/table/PaginationControls.tsx
 
-import lastPageIcon from "../../assets/LastPage.svg";
-import firstPageIcon from "../../assets/FirstPage.svg";
+import React from "react";
 
 interface PaginationProps {
   currentPage: number;
@@ -18,16 +17,16 @@ const PaginationControls = ({
 }: PaginationProps) => (
   <nav
     aria-label="Pagination"
-    className="flex gap-2 items-center justify-center"
+    className="flex gap-2 items-center justify-center mt-4"
   >
     {/* First Page Button */}
     <button
       onClick={() => onPageChange(1)}
       disabled={isLoading || currentPage === 1}
       aria-label="First Page"
-      className="flex items-center justify-center rounded disabled:opacity-50"
+      className="min-w-[40px] min-h-[32px] bg-[var(--primary-light)] text-[var(--primary-color)] rounded-md hover:bg-[var(--primary-surface)] disabled:opacity-50 transition-colors p-2"
     >
-      <img className="w-4 h-4" src={firstPageIcon} alt="First page" />
+      First
     </button>
 
     {/* Previous Page Button */}
@@ -35,13 +34,16 @@ const PaginationControls = ({
       onClick={() => onPageChange(currentPage - 1)}
       disabled={isLoading || currentPage === 1}
       aria-label="Previous Page"
-      className="w-10 h-8 flex items-center justify-center rounded disabled:opacity-50"
+      className="min-w-[40px] min-h-[32px] bg-[var(--primary-light)] text-[var(--primary-color)] rounded-md hover:bg-[var(--primary-surface)] disabled:opacity-50 transition-colors p-2"
     >
-      &#8592;
+      Previous
     </button>
 
     {/* Current Page Display */}
-    <span aria-current="page" className="text-center">
+    <span
+      aria-current="page"
+      className="text-center font-semibold text-[var(--text-color-primary)]"
+    >
       Page {currentPage} of {totalPages}
     </span>
 
@@ -50,9 +52,9 @@ const PaginationControls = ({
       onClick={() => onPageChange(currentPage + 1)}
       disabled={isLoading || currentPage === totalPages}
       aria-label="Next Page"
-      className="w-10 h-8 flex items-center justify-center rounded disabled:opacity-50"
+      className="min-w-[40px] min-h-[32px] bg-[var(--primary-light)] text-[var(--primary-color)] rounded-md hover:bg-[var(--primary-surface)] disabled:opacity-50 transition-colors p-2"
     >
-      &#8594;
+      Next
     </button>
 
     {/* Last Page Button */}
@@ -60,9 +62,9 @@ const PaginationControls = ({
       onClick={() => onPageChange(totalPages)}
       disabled={isLoading || currentPage === totalPages}
       aria-label="Last Page"
-      className="flex items-center justify-center rounded disabled:opacity-50"
+      className="min-w-[40px] min-h-[32px] bg-[var(--primary-light)] text-[var(--primary-color)] rounded-md hover:bg-[var(--primary-surface)] disabled:opacity-50 transition-colors p-2"
     >
-      <img className="w-4 h-4" src={lastPageIcon} alt="Last page" />
+      Last
     </button>
   </nav>
 );

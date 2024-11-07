@@ -1,4 +1,4 @@
-// src/presentation/hooks/useFetchCities.tsx
+// src/hooks/useFetchCities.ts
 
 import { useState, useEffect } from "react";
 import { City } from "../domain/models/City";
@@ -13,20 +13,14 @@ const useFetchCities = () => {
       try {
         const response = await fetch("/api/cities");
         if (!response.ok) throw new Error("Failed to fetch cities.");
-
         const data = await response.json();
         setCities(data);
       } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("An unknown error occurred.");
-        }
+        setError("Failed to fetch cities.");
       } finally {
         setLoading(false);
       }
     };
-
     fetchCities();
   }, []);
 
