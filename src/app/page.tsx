@@ -46,7 +46,7 @@ export default function HomePage() {
       </div>
       {searchTerm.length > 0 && (
         <section aria-live="polite" className="mt-2 text-center" tabIndex={0}>
-          <p>Showing results for "{searchTerm}"</p>
+          <p>Showing results for `&quot;`{searchTerm}`&quot;`</p>
         </section>
       )}
 
