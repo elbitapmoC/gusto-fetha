@@ -5,7 +5,7 @@ import TableColumnHeader from "./TableColumnHeader";
 
 const Table = ({ data, sortConfig, onSort }: TableProps) => {
   if (!data || data.length === 0) {
-    return <p className="text-center p-4">No data available</p>;
+    return <p className="text-center text-red-500 p-4">No cities found.</p>;
   }
 
   // Ensure `handleSort` has a fallback function if `onSort` is undefined
@@ -20,7 +20,7 @@ const Table = ({ data, sortConfig, onSort }: TableProps) => {
   return (
     <div className="table-container overflow-x-auto max-w-xl m-auto">
       <table
-        className="w-full text-left border-collapse"
+        className="w-full text-left border-collapse table-auto text-sm"
         role="table"
         aria-label="City Directory"
       >
@@ -45,6 +45,12 @@ const Table = ({ data, sortConfig, onSort }: TableProps) => {
               onSort={handleSort}
               sortConfig={activeSortConfig}
             />
+            <TableColumnHeader
+              label="Capital"
+              keyProp="capital"
+              onSort={handleSort}
+              sortConfig={activeSortConfig}
+            />
           </tr>
         </thead>
         <tbody>
@@ -53,14 +59,17 @@ const Table = ({ data, sortConfig, onSort }: TableProps) => {
               key={id || idx}
               className="hover:bg-[var(--primary-surface)] even:bg-gray-50"
             >
-              <td className="border px-4 py-2" role="cell">
+              <td className="p-4 border-b" role="cell">
                 {name}
               </td>
-              <td className="border px-4 py-2" role="cell">
+              <td className="p-4 border-b" role="cell">
                 {country}
               </td>
-              <td className="border px-4 py-2" role="cell">
-                {population ? population.toLocaleString() : "-"}
+              <td className="p-4 border-b" role="cell">
+                {population ? population.toLocaleString() : "0"}
+              </td>
+              <td className="p-4 border-b" role="cell">
+                {capital ? capital : "-"}
               </td>
             </tr>
           ))}

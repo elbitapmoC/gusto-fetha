@@ -44,6 +44,11 @@ export default function HomePage() {
       <div className="mb-4">
         <Search value={searchTerm} onSearch={setSearchTerm} />
       </div>
+      {searchTerm.length > 0 && (
+        <section aria-live="polite" className="mt-2 text-center" tabIndex={0}>
+          <p>Showing results for "{searchTerm}"</p>
+        </section>
+      )}
 
       {loading || isSearching ? (
         <Loading />

@@ -1,4 +1,5 @@
 // src/components/ui/Search.tsx
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 interface SearchProps {
@@ -22,16 +23,35 @@ const Search = ({ value, onSearch }: SearchProps) => {
   };
 
   return (
-    <div className="max-w-xl mx-auto">
-      <input
-        type="search"
-        value={query}
-        onChange={handleChange}
-        placeholder="Search cities..."
-        className="text-sm p-2 border bg-[var(--background-color)] text-[var(--text-color-primary)] placeholder:text-[var(--text-color-secondary)] border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
-        aria-label="Search cities"
-      />
-    </div>
+    <form
+      role="search"
+      aria-label="City and country search"
+      className="relative max-w-xl mx-auto"
+    >
+      <label htmlFor="search" className="sr-only">
+        Search for a city or country
+      </label>
+      <div className="relative">
+        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+          <Image
+            src="/assets/search.svg"
+            alt="Search"
+            className="w-5 h-5 text-gray-500"
+            width={21}
+            height={21}
+          />
+        </div>
+        <input
+          id="search"
+          type="search"
+          placeholder="Search for a city or country..."
+          className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50"
+          onChange={handleChange}
+          aria-label="Search field"
+          value={query}
+        />
+      </div>
+    </form>
   );
 };
 

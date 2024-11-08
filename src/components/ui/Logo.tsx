@@ -8,9 +8,8 @@ interface LogoProps {
 
 const Logo = () => (
   <Image
-    src="/assets/sojo.svg" // Updated to reference the public directory path
+    src="/assets/sojo.svg"
     alt="Sojourner logo"
-    className="w-6"
     width={25}
     height={37}
     role="img"
