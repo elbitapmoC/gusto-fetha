@@ -1,30 +1,48 @@
-// src/presentation/hooks/useSearch.tsx
+// src/hooks/useSearch.tsx
 
-import { useState, useMemo } from "react";
-import { useCities } from "../context/CitiesContext"; // Access data from context
+import { useState, useMemo, useEffect } from "react";
 import { City } from "../types";
 
-// src/hooks/useSearch.tsx
 interface UseSearchProps {
-  items: City[]; // Ensure `items` is defined
-  searchField: keyof City;
+  items: City[];
+  searchFields: (keyof City)[];
 }
 
-const useSearch = ({ searchField }: UseSearchProps) => {
-  const { cities } = useCities(); // Get cities data from context
+const useSearch = ({ items, searchFields }: UseSearchProps) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
+  const [isSearching, setIsSearching] = useState(false);
 
+  // Update `debouncedSearchTerm` only after 150ms of inactivity
+  useEffect(() => {
+    setIsSearching(true);
+
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm); // Update only after delay
+      setIsSearching(false);
+    }, 150);
+
+    // Clear timeout if searchTerm changes within the delay
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+
+  // Filter items based on the debounced search term
   const filteredItems = useMemo(() => {
-    const lowerCaseTerm = searchTerm.toLowerCase();
-    return cities.filter((item) =>
-      String(item[searchField]).toLowerCase().includes(lowerCaseTerm)
+    const lowerCaseTerm = debouncedSearchTerm.toLowerCase();
+    return items.filter((item) =>
+      searchFields.some((field) =>
+        String(item[field]).toLowerCase().includes(lowerCaseTerm)
+      )
     );
-  }, [cities, searchTerm, searchField]);
+  }, [items, debouncedSearchTerm, searchFields]);
 
   return {
     searchTerm,
     setSearchTerm,
     filteredItems,
+    isSearching, // Track if debounce is in progress
   };
 };
 

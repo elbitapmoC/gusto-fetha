@@ -49,7 +49,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 Often enough, Gusto users need to deal with large sets of data – in this exercise, that would be a list of the cities of the world.
 We are looking to offer a delightful user experience when it comes to searching, sorting, and navigating through such datasets.
 
-<img src="https://user-images.githubusercontent.com/9911645/171285680-74d420e9-faff-439d-929d-923f8b699c51.png" width="800px" />
+<Image src="https://user-images.githubusercontent.com/9911645/171285680-74d420e9-faff-439d-929d-923f8b699c51.png" width="800px" />
 
 In this exercise, we'll be focusing on these elements of your implementation:
 

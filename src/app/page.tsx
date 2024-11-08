@@ -11,30 +11,28 @@ import Loading from "@/components/ui/Loading";
 import useSearch from "../hooks/useSearch";
 import useSort from "../hooks/useSort";
 import usePagination from "../hooks/usePagination";
+import { City } from "@/types";
 
 export default function HomePage() {
-  // Fetch cities from context
   const { cities, loading, error } = useCities();
 
-  // Initialize search
   const {
     searchTerm,
     setSearchTerm,
     filteredItems: searchedCities,
+    isSearching,
   } = useSearch({
     items: cities,
-    searchField: "name",
+    searchFields: ["name", "country"], // Search by both city name and country
   });
 
-  // Initialize sorting on searched cities
   const { sortedCities, requestSort, sortConfig } = useSort(searchedCities);
 
-  // Initialize pagination on sorted cities
   const {
     paginatedItems: paginatedCities,
     currentPage,
     totalPages,
-    itemsPerPage, // Now it’s available here
+    itemsPerPage,
     setItemsPerPage,
     handlePageChange,
   } = usePagination<City>({ items: sortedCities, itemsPerPage: 10 });
@@ -47,7 +45,7 @@ export default function HomePage() {
         <Search value={searchTerm} onSearch={setSearchTerm} />
       </div>
 
-      {loading ? (
+      {loading || isSearching ? (
         <Loading />
       ) : error ? (
         <p className="text-red-500 text-center">{error}</p>
@@ -55,13 +53,13 @@ export default function HomePage() {
         <>
           <Table
             data={paginatedCities}
-            sortConfig={sortConfig}
+            sortConfig={sortConfig || ""}
             onSort={requestSort}
           />
 
           <footer className="max-w-xl mx-auto flex flex-col gap-4 mt-12 items-center sm:flex-row sm:justify-between sm:gap-8">
             <TableItemsPerPage
-              itemsPerPage={itemsPerPage} // Use the value directly here
+              itemsPerPage={itemsPerPage}
               setItemsPerPage={setItemsPerPage}
             />
             <PaginationControls
