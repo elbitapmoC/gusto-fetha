@@ -3,7 +3,7 @@
 const Loading = () => {
   return (
     <aside
-      className="flex items-center justify-center m-8 py-2.5 px-5 text-sm font-medium text-[var(--text-color)] border border-[var(--border-color)] rounded-lg"
+      className="flex items-center justify-center m-8 py-2.5 px-5 text-lg text-[var(--text-color)]"
       aria-label="Loading"
       role="status"
     >

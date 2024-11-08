@@ -20,7 +20,7 @@ const TableItemsPerPage = ({
       >
         {[10, 20, 50, 100].map((count) => (
           <option key={count} value={count}>
-            {count} / page
+            {count}
           </option>
         ))}
       </select>

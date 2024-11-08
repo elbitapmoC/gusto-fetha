@@ -97,6 +97,7 @@ button {
 /* Apply hover only if the button is not disabled */
 button:not(:disabled):hover {
   background-color: var(--primary-deep);
+  color: var(--button-text-color);
 }
 
 tr:hover {

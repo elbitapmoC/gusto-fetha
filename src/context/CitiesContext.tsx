@@ -8,28 +8,31 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { City } from "../domain/models/City";
-import CityRepo from "../infrastructure/repos/CityRepo";
-import { GetCitiesUseCase } from "../domain/useCases/GetCItiesUseCase";
-import { CityServiceInterface } from "../domain/services/CityServiceInterface";
+import { CityServiceInterface, City } from "../types";
+import CityRepo from "../infrastructure/CityRepo";
+import { GetCitiesUseCase } from "@/domain/GetCitiesUseCase";
 
+// Define the state structure
 interface State {
   cities: City[];
   loading: boolean;
   error: string | null;
 }
 
+// Define initial state for cities
 const initialState: State = {
   cities: [],
   loading: false,
   error: null,
 };
 
+// Define action types for reducer
 type Action =
   | { type: "FETCH_START" }
   | { type: "FETCH_SUCCESS"; payload: City[] }
   | { type: "FETCH_FAILURE"; payload: string };
 
+// Reducer function to handle state transitions
 function citiesReducer(state: State, action: Action): State {
   switch (action.type) {
     case "FETCH_START":
@@ -43,9 +46,11 @@ function citiesReducer(state: State, action: Action): State {
   }
 }
 
+// Create context with State type
 const CitiesContext = createContext<State | undefined>(undefined);
 
-export const useCities = () => {
+// Custom hook to access CitiesContext with error handling
+const useCities = () => {
   const context = useContext(CitiesContext);
   if (!context) {
     throw new Error("useCities must be used within a CitiesProvider");
@@ -53,7 +58,8 @@ export const useCities = () => {
   return context;
 };
 
-export const CitiesProvider = ({ children }: { children: ReactNode }) => {
+// Provider component to supply context to children
+const CitiesProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(citiesReducer, initialState);
 
   useEffect(() => {
@@ -77,3 +83,5 @@ export const CitiesProvider = ({ children }: { children: ReactNode }) => {
     <CitiesContext.Provider value={state}>{children}</CitiesContext.Provider>
   );
 };
+
+export { CitiesContext, CitiesProvider, useCities };

@@ -1,19 +1,34 @@
 // src/types/index.ts
 
-import { City } from "../domain/models/City";
+export interface City {
+  id: number;
+  name: string;
+  nameAscii?: string;
+  country: string;
+  countryIso3?: string;
+  capital: string;
+  population: number;
+}
+
+export interface CityServiceInterface {
+  getCities(
+    limit?: number,
+    offset?: number,
+    searchTerm?: string
+  ): Promise<City[]>;
+}
 
 // Sorting configuration for a table column
 export interface SortConfig {
   column: keyof City;
-  direction: "asc" | "desc" | "none";
+  direction: "ascending" | "descending" | "none";
 }
 
 // General props for tables, includes data
 export interface TableProps {
-  data?: City[];
-  children?: React.ReactNode;
-  sortConfig?: SortConfig | null;
-  onSort?: (column: keyof City) => void;
+  data: City[];
+  sortConfig: SortConfig | "";
+  onSort: (column: keyof City) => void;
 }
 
 // Pagination props
@@ -24,5 +39,3 @@ export interface PaginationProps {
   itemsPerPage: number;
   setItemsPerPage: (count: number) => void;
 }
-
-export type { City };

@@ -1,23 +1,30 @@
 // src/components/ui/Search.tsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface SearchProps {
+  value: string; // Renamed for clarity as a controlled component
   onSearch: (query: string) => void;
 }
 
-const Search = ({ onSearch }: SearchProps) => {
-  const [query, setQuery] = useState("");
+const Search = ({ value, onSearch }: SearchProps) => {
+  const [query, setQuery] = useState(value);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+  // Syncs local query state with prop value changes from the parent
+  useEffect(() => {
     setQuery(value);
-    onSearch(value);
+  }, [value]);
+
+  // Handles input change and sends updates to parent on each keystroke
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuery = e.target.value;
+    setQuery(newQuery);
+    onSearch(newQuery); // Directly calls onSearch with updated query
   };
 
   return (
-    <div className="max-w-lg mx-auto">
+    <div className="max-w-xl mx-auto">
       <input
-        type="text"
+        type="search"
         value={query}
         onChange={handleChange}
         placeholder="Search cities..."

@@ -1,8 +1,7 @@
 // src/infrastructure/repos/CityRepo.ts
 
-import { cities } from "../../data/cities";
-import { City } from "../../domain/models/City";
-import { CityServiceInterface } from "../../domain/services/CityServiceInterface";
+import { cities } from "../data/cities";
+import { City, CityServiceInterface } from "../types";
 
 interface SearchOptions {
   limit?: number;

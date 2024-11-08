@@ -4,7 +4,7 @@ import Logo from "../ui/Logo";
 
 const Footer = () => (
   <footer
-    className="max-w-xl mx-auto mb-12"
+    className="max-w-xl mx-auto mb-12 p-4"
     style={{ backgroundColor: "var(--footer-bg)", color: "var(--text-color)" }}
     role="contentinfo"
   >
@@ -13,7 +13,7 @@ const Footer = () => (
       style={{ borderColor: "var(--border-color)" }}
     />
 
-    <div className="w-full max-w-screen-xl mx-auto md:py-8">
+    <div className="w-full md:py-8">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-8 w-full">
         <a
           href="https://sojourn.llc/"

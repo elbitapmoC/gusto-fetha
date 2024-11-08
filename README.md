@@ -72,9 +72,9 @@ In this exercise, we'll be focusing on these elements of your implementation:
 
 ### Sorting
 
-- [ ] :star: **P0**: As a user, I want to be able to toggle sorting (ascending) the search results by a single column
-- [ ] **P1**: As a user, I want to be able to toggle between ascending, descending, or no sorting of the search results by a single column
-- [ ] **P2**: As a user, I want to be able to toggle between ascending, descending, or no sorting of the search results by multiple columns
+- [ ] :star: **P0**: As a user, I want to be able to toggle sorting (asc) the search results by a single column
+- [ ] **P1**: As a user, I want to be able to toggle between asc, descending, or no sorting of the search results by a single column
+- [ ] **P2**: As a user, I want to be able to toggle between asc, descending, or no sorting of the search results by multiple columns
 
 ### Pagination
 
@@ -119,4 +119,5 @@ Handles column sorting for the `Table` component.
 
 - `sortedData`: The sorted data based on column and direction.
 - `handleSort`: Function to toggle sorting state.
+
 # gusto-fetha

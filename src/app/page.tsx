@@ -1,85 +1,67 @@
 // src/app/page.tsx
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useCities } from "../context/CitiesContext";
 import Table from "../components/table/Table";
 import PaginationControls from "../components/table/PaginationControls";
 import TableItemsPerPage from "../components/table/TableItemsPerPage";
 import Search from "../components/ui/Search";
 import Title from "@/components/ui/Title";
+import Loading from "@/components/ui/Loading";
+import useSearch from "../hooks/useSearch";
+import useSort from "../hooks/useSort";
+import usePagination from "../hooks/usePagination";
 
 export default function HomePage() {
-  const [cities, setCities] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [currentPage, setCurrentPage] = useState(1);
+  // Fetch cities from context
+  const { cities, loading, error } = useCities();
 
-  // Fetch cities data
-  useEffect(() => {
-    setLoading(true);
-    fetch("/api/cities")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch cities.");
-        return res.json();
-      })
-      .then((data) => {
-        setCities(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
+  // Initialize search
+  const {
+    searchTerm,
+    setSearchTerm,
+    filteredItems: searchedCities,
+  } = useSearch({
+    items: cities,
+    searchField: "name",
+  });
 
-  // Handle search term updates
-  const handleSearch = (term: string) => {
-    setSearchTerm(term);
-    setCurrentPage(1); // Reset to first page on new search
-  };
+  // Initialize sorting on searched cities
+  const { sortedCities, requestSort, sortConfig } = useSort(searchedCities);
 
-  // Filter cities based on search term
-  const filteredCities = useMemo(() => {
-    return cities.filter((city: { name: string }) =>
-      city.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [cities, searchTerm]);
-
-  // Calculate total pages for pagination
-  const totalPages = Math.ceil(filteredCities.length / itemsPerPage);
-
-  // Handle page change
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
-  // Slice data for the current page
-  const paginatedCities = useMemo(() => {
-    const startIdx = (currentPage - 1) * itemsPerPage;
-    const endIdx = startIdx + itemsPerPage;
-    return filteredCities.slice(startIdx, endIdx);
-  }, [filteredCities, currentPage, itemsPerPage]);
+  // Initialize pagination on sorted cities
+  const {
+    paginatedItems: paginatedCities,
+    currentPage,
+    totalPages,
+    itemsPerPage, // Now it’s available here
+    setItemsPerPage,
+    handlePageChange,
+  } = usePagination<City>({ items: sortedCities, itemsPerPage: 10 });
 
   return (
     <main>
       <Title title="City Directory" />
 
       <div className="mb-4">
-        <Search onSearch={handleSearch} />
+        <Search value={searchTerm} onSearch={setSearchTerm} />
       </div>
 
       {loading ? (
-        <p className="text-center">Loading cities...</p>
+        <Loading />
       ) : error ? (
         <p className="text-red-500 text-center">{error}</p>
       ) : (
         <>
-          <Table data={paginatedCities} />
-          <div className="flex justify-between items-center mt-6">
+          <Table
+            data={paginatedCities}
+            sortConfig={sortConfig}
+            onSort={requestSort}
+          />
+
+          <footer className="max-w-xl mx-auto flex flex-col gap-4 mt-12 items-center sm:flex-row sm:justify-between sm:gap-8">
             <TableItemsPerPage
-              itemsPerPage={itemsPerPage}
+              itemsPerPage={itemsPerPage} // Use the value directly here
               setItemsPerPage={setItemsPerPage}
             />
             <PaginationControls
@@ -88,7 +70,7 @@ export default function HomePage() {
               onPageChange={handlePageChange}
               isLoading={loading}
             />
-          </div>
+          </footer>
         </>
       )}
     </main>

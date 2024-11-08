@@ -1,14 +1,25 @@
 // src/components/table/TableColumnHeader.tsx
 
-import { SortConfig } from "../../types";
-import { City } from "../../domain/models/City";
+import { SortConfig, City } from "../../types";
 
 interface TableColumnHeaderProps {
   label: string;
   keyProp: keyof City;
   onSort: (column: keyof City) => void;
-  sortConfig: SortConfig;
+  sortConfig: SortConfig | null;
 }
+
+// Helper function to get sort indicator
+const getSortIndicator = (
+  column: keyof City,
+  sortConfig: SortConfig | null
+) => {
+  if (sortConfig?.column === column) {
+    if (sortConfig.direction === "ascending") return "↑";
+    if (sortConfig.direction === "descending") return "↓";
+  }
+  return "⇅"; // Default symbol when no specific sort is applied
+};
 
 const TableColumnHeader = ({
   label,
@@ -22,29 +33,20 @@ const TableColumnHeader = ({
     }
   };
 
-  const isSorted = sortConfig?.column === keyProp;
-  const sortIndicator = isSorted
-    ? sortConfig.direction === "asc"
-      ? "↑"
-      : "↓"
-    : "⇅";
+  const handleClick = () => {
+    onSort(keyProp);
+  };
 
   return (
     <th
-      onClick={() => onSort(keyProp)}
+      onClick={handleClick}
       onKeyDown={handleKeyPress}
       tabIndex={0}
       role="columnheader"
-      aria-sort={
-        isSorted
-          ? sortConfig.direction === "asc"
-            ? "ascending"
-            : "descending"
-          : "none"
-      }
+      aria-sort={sortConfig?.column === keyProp ? sortConfig.direction : "none"}
       className="cursor-pointer hover:bg-gray-100 p-4 border"
     >
-      {label} {sortIndicator}
+      {label} {getSortIndicator(keyProp, sortConfig)}
     </th>
   );
 };
