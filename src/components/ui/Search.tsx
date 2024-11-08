@@ -36,9 +36,9 @@ const Search = ({ value, onSearch }: SearchProps) => {
           <Image
             src="/assets/search.svg"
             alt="Search"
-            className="w-5 h-5 text-gray-500"
             width={21}
             height={21}
+            role="img"
           />
         </div>
         <input
