@@ -11,8 +11,8 @@ const Logo = () => (
     src="/assets/sojo.svg" // Updated to reference the public directory path
     alt="Sojourner logo"
     className="w-6"
-    width={100}
-    height={100}
+    width={25}
+    height={37}
     role="img"
   />
 );
