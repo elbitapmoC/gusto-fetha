@@ -1,6 +1,7 @@
 // src/components/ui/Search.tsx
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import SearchIcon from "../icons/Search";
 
 interface SearchProps {
   value: string; // Renamed for clarity as a controlled component
@@ -33,13 +34,7 @@ const Search = ({ value, onSearch }: SearchProps) => {
       </label>
       <div className="relative">
         <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-          <Image
-            src="/assets/search.svg"
-            alt="Search"
-            width={21}
-            height={21}
-            role="img"
-          />
+          <SearchIcon />
         </div>
         <input
           id="search"
