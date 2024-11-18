@@ -24,11 +24,7 @@ const Search = ({ value, onSearch }: SearchProps) => {
   };
 
   return (
-    <form
-      role="search"
-      aria-label="City and country search"
-      className="relative max-w-xl mx-auto"
-    >
+    <form role="search" aria-label="City and country search">
       <label htmlFor="search" className="sr-only">
         Search for a city or country
       </label>

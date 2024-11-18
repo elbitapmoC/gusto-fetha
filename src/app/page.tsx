@@ -12,6 +12,7 @@ import useSearch from "../hooks/useSearch";
 import useSort from "../hooks/useSort";
 import usePagination from "../hooks/usePagination";
 import { City } from "@/types";
+import Visualization from "@/components/Visualization";
 
 export default function HomePage() {
   const { cities, loading, error } = useCities();
@@ -40,13 +41,12 @@ export default function HomePage() {
   return (
     <main>
       <Title title="City Directory" />
-
-      <div className="mb-4">
+      <div className="mb-4 relative max-w-xl mx-auto">
         <Search value={searchTerm} onSearch={setSearchTerm} />
       </div>
       {searchTerm.length > 0 && (
         <section aria-live="polite" className="mt-2 text-center" tabIndex={0}>
-          <p>Showing results for `&quot;`{searchTerm}`&quot;`</p>
+          <p>Showing results for &quot;{searchTerm}&quot;</p>
         </section>
       )}
 
@@ -74,6 +74,8 @@ export default function HomePage() {
               isLoading={loading}
             />
           </footer>
+
+          <Visualization />
         </>
       )}
     </main>

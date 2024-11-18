@@ -18,7 +18,7 @@ const TableItemsPerPage = ({
         aria-label="Items per page"
         className="border p-2 rounded-md"
       >
-        {[10, 20, 50, 100].map((count) => (
+        {[10, 20, 30].map((count) => (
           <option key={count} value={count}>
             {count}
           </option>
