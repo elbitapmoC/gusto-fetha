@@ -63,38 +63,38 @@ In this exercise, we'll be focusing on these elements of your implementation:
 
 ### Search
 
-- [x] :star: **P0**: As a user, I want to search for cities by city name
-- [x] :star: **P0**: As a user, I want to search for cities by country name
-- [ ] :star: **P0**: As a user, I should know when a search is pending
-- [ ] :star: **P0**: As a user, I should know when a search does not match any city
-- [ ] :star: **P0**: As a user, I should know when a search fails (**Note: if you search for 'error', we mimic an error for you :raised_hands:**)
-- [ ] P1: [Performance] As a user, I want the search to only kick in after 150ms since my last change to the search term
+- :star: **P0**: As a user, I want to search for cities by city name
+- :star: **P0**: As a user, I want to search for cities by country name
+- :star: **P0**: As a user, I should know when a search is pending
+- :star: **P0**: As a user, I should know when a search does not match any city
+- :star: **P0**: As a user, I should know when a search fails (**Note: if you search for 'error', we mimic an error for you :raised_hands:**)
+- P1: [Performance] As a user, I want the search to only kick in after 150ms since my last change to the search term
 
 ### Sorting
 
-- [ ] :star: **P0**: As a user, I want to be able to toggle sorting (asc) the search results by a single column
-- [ ] **P1**: As a user, I want to be able to toggle between asc, descending, or no sorting of the search results by a single column
-- [ ] **P2**: As a user, I want to be able to toggle between asc, descending, or no sorting of the search results by multiple columns
+- :star: **P0**: As a user, I want to be able to toggle sorting (asc) the search results by a single column
+- **P1**: As a user, I want to be able to toggle between asc, descending, or no sorting of the search results by a single column
+- **P2**: As a user, I want to be able to toggle between asc, descending, or no sorting of the search results by multiple columns
 
 ### Pagination
 
-- [ ] :star: **P0**: As a user, I want to be able to paginate through search results using a fixed page size (10)
-- [ ] :star: **P0**: As a user, I want to be able to navigate between result pages
-- [ ] **P2**: As a user, I want to be able to paginate through search results using a dynamic page size
-- [ ] **P3**: As a user, I want to be able to go all the way to the first and last pages of the search results
+- :star: **P0**: As a user, I want to be able to paginate through search results using a fixed page size (10)
+- :star: **P0**: As a user, I want to be able to navigate between result pages
+- **P2**: As a user, I want to be able to paginate through search results using a dynamic page size
+- **P3**: As a user, I want to be able to go all the way to the first and last pages of the search results
 
 ### Accessibility
 
-- [ ] **P1**: As a user, I want to be able to navigate the page using only a keyboard
-- [ ] **P3**: As a user, I want to be able to use a screen reader to know about dynamic content updates for sorting, pagination, errors, and search
+- **P1**: As a user, I want to be able to navigate the page using only a keyboard
+- **P3**: As a user, I want to be able to use a screen reader to know about dynamic content updates for sorting, pagination, errors, and search
 
 ### Design
 
 _For reference, you can use the screenshot in the problem statement above. We've also uploaded some icons you might want to use for your implementation – you can find these under src/assets/.._ :pray:
 
-- [ ] :star: **P0**: As a Gusto engineer, when I use `<SortableTable>`, its design matches Gusto's default design
-- [ ] **P2**: As a Gusto engineer, I can theme the `<SortableTable>` component with my own visual design
-- [ ] **P3**: As a user, I can view the search results on a narrow screen
+- :star: **P0**: As a Gusto engineer, when I use `<SortableTable>`, its design matches Gusto's default design
+- **P2**: As a Gusto engineer, I can theme the `<SortableTable>` component with my own visual design
+- **P3**: As a user, I can view the search results on a narrow screen
 
 ## Open questions
 
