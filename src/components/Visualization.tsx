@@ -1,43 +1,43 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import CityRepo from "@/infrastructure/CityRepo";
 import { City } from "@/types";
 
-const repo = new CityRepo();
+interface VisualizationProps {
+  cities: City[]; // The paginated and filtered cities
+}
 
-function Visualization() {
+function Visualization({ cities }: VisualizationProps) {
   const chartRef = useRef<HTMLDivElement | null>(null);
-  const [cities, setCities] = useState<City[]>([]);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function fetchCities() {
-      try {
-        const data = await repo.getCities(5); // Fetch 5 cities as an example
-        setCities(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Unknown error occurred");
-      }
-    }
-
-    fetchCities();
-  }, []);
 
   useEffect(() => {
     if (!chartRef.current || cities.length === 0) return;
 
     const containerWidth = chartRef.current.offsetWidth || 400;
-    const WIDTH = containerWidth;
     const HEIGHT = 300;
-    const MARGIN = { top: 20, right: 20, bottom: 30, left: 40 };
+
+    // Dynamically calculate left margin based on y-axis label width
+    const maxPopulation = d3.max(cities, (city) => city.population) || 0;
+    const maxLabelWidth = maxPopulation.toLocaleString().length * 8; // Estimate label width
+    const MARGIN = {
+      top: 20,
+      right: 20,
+      bottom: 50,
+      left: Math.max(50, maxLabelWidth),
+    };
+
+    const WIDTH = containerWidth;
+
+    // Clear the existing SVG to redraw
+    d3.select(chartRef.current).select("svg").remove();
 
     const svg = d3
       .select(chartRef.current)
       .append("svg")
-      .attr("width", WIDTH)
-      .attr("height", HEIGHT);
+      .attr("viewBox", `0 0 ${WIDTH} ${HEIGHT}`)
+      .attr("preserveAspectRatio", "xMidYMid meet")
+      .classed("responsive-svg", true);
 
     const x = d3
       .scaleBand()
@@ -48,21 +48,34 @@ function Visualization() {
     const y = d3
       .scaleLinear()
       .range([HEIGHT - MARGIN.bottom, MARGIN.top])
-      .domain([0, d3.max(cities, (city) => city.population) || 0]);
+      .domain([0, maxPopulation]);
 
+    // X-Axis
     svg
       .append("g")
       .attr("transform", `translate(0,${HEIGHT - MARGIN.bottom})`)
       .call(d3.axisBottom(x))
       .selectAll("text")
-      .attr("class", "text-sm text-gray-700");
+      .attr("class", "text-sm text-gray-700")
+      .style("font-size", "12px")
+      .style("text-anchor", "end")
+      .attr("dy", "0.35em")
+      .attr("dx", "-0.5em")
+      .attr("transform", "rotate(-45)") // Rotate labels
+      .text((d) =>
+        String(d).length > 10 ? `${String(d).substring(0, 10)}...` : String(d)
+      ) // Explicitly cast d to string
+      .append("title") // Tooltip for full text
+      .text((d) => String(d)); // Cast d to string
 
+    // Y-Axis
     svg
       .append("g")
       .attr("transform", `translate(${MARGIN.left},0)`)
-      .call(d3.axisLeft(y))
+      .call(d3.axisLeft(y).tickFormat(d3.format(",.0f"))) // Format y-axis labels
       .selectAll("text")
-      .attr("class", "text-sm text-gray-700");
+      .attr("class", "text-sm text-gray-700")
+      .style("font-size", "12px");
 
     const tooltip = d3
       .select("body")
@@ -75,14 +88,39 @@ function Visualization() {
     svg
       .selectAll(".bar")
       .data(cities)
-      .join("rect")
-      .attr("class", "bar")
-      .attr("x", (city: City) => x(city.name) || 0)
-      .attr("y", (city: City) => y(city.population))
-      .attr("height", (city: City) => y(0) - y(city.population))
-      .attr("width", x.bandwidth())
-      .attr("fill", "rgb(37, 99, 235)")
-      .on("mouseover", function (event, city: City) {
+      .join(
+        (enter) =>
+          enter
+            .append("rect")
+            .attr("class", "bar")
+            .attr("x", (city) => x(city.name) || 0)
+            .attr("y", y(0)) // Start from the bottom
+            .attr("height", 0) // Start with no height
+            .attr("width", x.bandwidth())
+            .attr("fill", "rgb(37, 99, 235)")
+            .call((enter) =>
+              enter
+                .transition()
+                .duration(750) // Animate over 750ms
+                .attr("y", (city) => y(city.population))
+                .attr("height", (city) => y(0) - y(city.population))
+            ),
+        (update) =>
+          update
+            .transition()
+            .duration(750) // Smoothly update existing bars
+            .attr("x", (city) => x(city.name) || 0)
+            .attr("y", (city) => y(city.population))
+            .attr("height", (city) => y(0) - y(city.population)),
+        (exit) =>
+          exit
+            .transition()
+            .duration(500) // Animate removal of bars
+            .attr("y", y(0)) // Shrink to the bottom
+            .attr("height", 0)
+            .remove()
+      )
+      .on("mouseover", function (event, city) {
         tooltip
           .style("opacity", "1")
           .html(
@@ -108,11 +146,7 @@ function Visualization() {
       tooltip.remove();
       d3.select(chartRef.current).select("svg").remove();
     };
-  }, [cities]);
-
-  if (error) {
-    return <div className="text-red-500">Error: {error}</div>;
-  }
+  }, [cities]); // Re-render chart when cities data changes
 
   return (
     <div

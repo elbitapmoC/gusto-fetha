@@ -69,7 +69,8 @@ export default function HomePage() {
             />
           </footer>
 
-          <Visualization />
+          {/* Pass only the paginatedCities to Visualization */}
+          <Visualization cities={paginatedCities} />
         </>
       )}
     </main>
