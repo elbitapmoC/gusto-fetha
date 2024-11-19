@@ -1,14 +1,10 @@
-// src/components/table/TableItemsPerPage.tsx
+"use client";
 
-interface TableItemsPerPageProps {
-  itemsPerPage: number;
-  setItemsPerPage: (items: number) => void;
-}
+import { useCities } from "@/context/CitiesContext";
 
-const TableItemsPerPage = ({
-  itemsPerPage,
-  setItemsPerPage,
-}: TableItemsPerPageProps) => {
+const TableItemsPerPage = () => {
+  const { itemsPerPage, setItemsPerPage } = useCities();
+
   return (
     <label className="flex items-center space-x-2">
       <span className="text-sm">Items per page:</span>
@@ -18,7 +14,7 @@ const TableItemsPerPage = ({
         aria-label="Items per page"
         className="border p-2 rounded-md"
       >
-        {[10, 20, 30].map((count) => (
+        {[5, 10, 15].map((count) => (
           <option key={count} value={count}>
             {count}
           </option>

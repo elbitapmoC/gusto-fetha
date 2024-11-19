@@ -78,7 +78,7 @@ In this exercise, we'll be focusing on these elements of your implementation:
 
 ### Pagination
 
-- :star: **P0**: As a user, I want to be able to paginate through search results using a fixed page size (10)
+- :star: **P0**: As a user, I want to be able to paginate through search results using a fixed page size (5)
 - :star: **P0**: As a user, I want to be able to navigate between result pages
 - **P2**: As a user, I want to be able to paginate through search results using a dynamic page size
 - **P3**: As a user, I want to be able to go all the way to the first and last pages of the search results

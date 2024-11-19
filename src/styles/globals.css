@@ -133,3 +133,9 @@ th {
   border: 1px solid transparent; /* Prevent border shifts on focus */
   padding: 0.5rem 1rem; /* Ensure consistent padding */
 }
+
+.tooltip {
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}

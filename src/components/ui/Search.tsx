@@ -1,26 +1,23 @@
 // src/components/ui/Search.tsx
-import Image from "next/image";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import SearchIcon from "../icons/Search";
 
 interface SearchProps {
-  value: string; // Renamed for clarity as a controlled component
-  onSearch: (query: string) => void;
+  value: string; // Controlled value from parent
+  onSearch: (query: string) => void; // Callback to update search query
 }
 
 const Search = ({ value, onSearch }: SearchProps) => {
   const [query, setQuery] = useState(value);
 
-  // Syncs local query state with prop value changes from the parent
   useEffect(() => {
-    setQuery(value);
+    setQuery(value); // Sync local state with parent value
   }, [value]);
 
-  // Handles input change and sends updates to parent on each keystroke
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newQuery = e.target.value;
     setQuery(newQuery);
-    onSearch(newQuery); // Directly calls onSearch with updated query
+    onSearch(newQuery); // Pass the new query to parent
   };
 
   return (

@@ -1,11 +1,12 @@
 "use client";
-// src/presentation/context/CitiesContext.tsx
+// src/context/CitiesContext.tsx
 
 import React, {
   createContext,
   useContext,
   useReducer,
   useEffect,
+  useState,
   ReactNode,
 } from "react";
 import { CityServiceInterface, City } from "../types";
@@ -17,10 +18,12 @@ interface State {
   cities: City[];
   loading: boolean;
   error: string | null;
+  itemsPerPage: number; // Added itemsPerPage to the state
+  setItemsPerPage: (items: number) => void; // Setter function for itemsPerPage
 }
 
 // Define initial state for cities
-const initialState: State = {
+const initialState: Omit<State, "itemsPerPage" | "setItemsPerPage"> = {
   cities: [],
   loading: false,
   error: null,
@@ -33,7 +36,10 @@ type Action =
   | { type: "FETCH_FAILURE"; payload: string };
 
 // Reducer function to handle state transitions
-function citiesReducer(state: State, action: Action): State {
+function citiesReducer(
+  state: Omit<State, "itemsPerPage" | "setItemsPerPage">,
+  action: Action
+): Omit<State, "itemsPerPage" | "setItemsPerPage"> {
   switch (action.type) {
     case "FETCH_START":
       return { ...state, loading: true, error: null };
@@ -61,6 +67,7 @@ const useCities = () => {
 // Provider component to supply context to children
 const CitiesProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(citiesReducer, initialState);
+  const [itemsPerPage, setItemsPerPage] = useState(5); // Default items per page
 
   useEffect(() => {
     const cityRepo = new CityRepo() as CityServiceInterface;
@@ -80,7 +87,15 @@ const CitiesProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <CitiesContext.Provider value={state}>{children}</CitiesContext.Provider>
+    <CitiesContext.Provider
+      value={{
+        ...state,
+        itemsPerPage, // Include itemsPerPage in the context
+        setItemsPerPage, // Provide setter function to update itemsPerPage
+      }}
+    >
+      {children}
+    </CitiesContext.Provider>
   );
 };
 

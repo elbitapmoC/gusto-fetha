@@ -1,4 +1,3 @@
-// src/app/page.tsx
 "use client";
 
 import { useCities } from "../context/CitiesContext";
@@ -15,7 +14,7 @@ import { City } from "@/types";
 import Visualization from "@/components/Visualization";
 
 export default function HomePage() {
-  const { cities, loading, error } = useCities();
+  const { cities, loading, error, itemsPerPage } = useCities(); // Access itemsPerPage from context
 
   const {
     searchTerm,
@@ -33,10 +32,8 @@ export default function HomePage() {
     paginatedItems: paginatedCities,
     currentPage,
     totalPages,
-    itemsPerPage,
-    setItemsPerPage,
     handlePageChange,
-  } = usePagination<City>({ items: sortedCities, itemsPerPage: 10 });
+  } = usePagination<City>({ items: sortedCities, itemsPerPage }); // Use itemsPerPage from context
 
   return (
     <main>
@@ -63,10 +60,7 @@ export default function HomePage() {
           />
 
           <footer className="max-w-xl mx-auto flex flex-col gap-4 mt-12 items-center sm:flex-row sm:justify-between sm:gap-8">
-            <TableItemsPerPage
-              itemsPerPage={itemsPerPage}
-              setItemsPerPage={setItemsPerPage}
-            />
+            <TableItemsPerPage />
             <PaginationControls
               currentPage={currentPage}
               totalPages={totalPages}

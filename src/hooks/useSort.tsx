@@ -1,4 +1,4 @@
-// src/presentation/hooks/useSort.tsx
+// src/hooks/useSort.tsx
 
 import { useState, useMemo } from "react";
 import { SortConfig, City } from "../types";
